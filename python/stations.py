@@ -126,7 +126,7 @@ def fetch_data(params, required_data_types, slump=False, calculate=False, timeou
                             df[data_type] = pd.to_numeric(df[data_type], errors='coerce')
 
                 return df
-            except (HTTPError, Timeout, ConnectionError, TooManyRedirects) as err:
+            except (HTTPError, Timeout, ConnectionError) as err:
                 logging.warning(f"Attempt {attempt + 1} - Network Error: {err}")
                 logging.warning(f"URL: {query_url}")
                 time.sleep(2 ** attempt)  # Exponential backoff

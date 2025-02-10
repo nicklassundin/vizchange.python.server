@@ -6,7 +6,7 @@ import numpy as np
 
 import stations
 from stations import fetch_data
-from cache import get_cached, set_cache, clear_cache, clear_all_cache, get_cached_result, set_cache_result
+from cache import get_cached, set_cache, clear_cache, clear_all_cache, get_cached_result, set_cache_result, cache
 from weatherstats import weather_yearly, calculate_time_interval_stats, period_month_snowdepth, calculate_difference_from_baseline, calculate_baseline
 from generate import generate_random_weather_data
 from datatypes import STATISTICS_TO_DATA_TYPES, ALL_STATISTICS
@@ -405,6 +405,14 @@ def station_stats():
     set_cache(params, data_types)
     return jsonify(data_types)
 
-    return jsonify(data_types)
+@app.route("/redis-test")
+def redis_test():
+    try:
+        cache.set("test_key", "Hello, Redis!")
+        return cache.get("test_key")
+    except redis.RedisError as e:
+        return f"Redis error: {str(e)}"
+
 if __name__ == '__main__':
     app.run(debug=False)
+

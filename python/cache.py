@@ -1,4 +1,4 @@
-
+import sys
 import redis
 import hashlib
 import json
@@ -18,7 +18,17 @@ for i, key in ipairs(keys) do
 end
 return 'Done'
 """
-cache = redis.StrictRedis(host='localhost', port=6379, db=0)
+
+redis_host = sys.argv[1] if len(sys.argv) > 1 else 'localhost'
+redis_port = int(sys.argv[2]) if len(sys.argv) > 2 else 6379
+# Connect to Redis
+try:
+    cache = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
+    cache.ping()  # Test connection
+    print(f"Connected to Redis at {redis_host}:{redis_port}")
+except redis.ConnectionError:
+    print(f"Failed to connect to Redis at {redis_host}:{redis_port}")
+    sys.exit(1)
 
 import zlib
 def compress_data(data):
