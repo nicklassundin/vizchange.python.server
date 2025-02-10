@@ -1,8 +1,15 @@
 import { spawn } from 'child_process';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 export default function startPythonServer(app) {
 	// Start the Python Flask server
-	const pythonProcess = spawn('python3', ['python/server.py'], {stdio: 'pipe'}); // Adjust the path to your Python server script
+	const pythonProcess = spawn('python3',
+		['python/server.py'],
+		{
+			stdio: 'pipe',
+			cwd: 'submodules/python.server', // Change this to the correct submodule path
+		}
+);
 
 	// Listen for Python server output
 	pythonProcess.stdout.on('data', (data) => {
