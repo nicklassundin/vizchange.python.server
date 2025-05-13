@@ -4,6 +4,17 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 export default function startPythonServer(app, config = {host: 'localhost', port: 6379}) {
 	// Start the Python Flask server
 	// Arguments are server start, reddist server host and port
+	const WINDOW_MS = 30 * 1000; // 30 seconds
+	    const MAX_RESTARTS = 2;
+	    const recentRestarts = restartHistory.filter(ts => now - ts < WINDOW_MS);
+	    restartHistory.length = 0;
+	    restartHistory.push(...recentRestarts);
+
+	if (recentRestarts.length >= MAX_RESTARTS) {
+		        console.error(`Too many restarts (${recentRestarts.length}) in short time. Not restarting.`);
+		        return;
+		    
+	}
 	const pythonProcess = spawn('python3',
 		['python/server.py', config.host, config.port.toString()],
 		{
