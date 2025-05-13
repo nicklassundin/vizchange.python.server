@@ -25,11 +25,9 @@ export default function startPythonServer(app, config = {host: 'localhost', port
 	// When the Python server exits
 	pythonProcess.on('close', (code) => {
 		console.log(`Python Server Process exited with code ${code}`);
-		if (code !== 0) {
-			console.error('Python Server crashed, restarting...');
-            setTimeout(() => {
-                startPythonServer(app);
-            }, 5000); // Restart after 5 seconds
+		// Prompt the user to restart the server
+		// console.log('Do you want to restart server? (y/n)');
+		// Here you can implement a prompt to ask the user if they want to restart the server
 		}
 	});
 
