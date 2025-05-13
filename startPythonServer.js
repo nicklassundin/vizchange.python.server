@@ -28,7 +28,6 @@ export default function startPythonServer(app, config = {host: 'localhost', port
 		// Prompt the user to restart the server
 		// console.log('Do you want to restart server? (y/n)');
 		// Here you can implement a prompt to ask the user if they want to restart the server
-		}
 	});
 
 	process.on('exit', () => {
